@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Verifica se o usuário é root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Este script deve ser executado como root."
+    exit 1
+fi
+
+# Verifica se um nome de pacote foi fornecido
+if [ -z "$1" ]; then
+    echo "Uso: edxinstall <nome-do-pacote>"
+    exit 1
+fi
+
+# Atualiza a lista de pacotes
+echo "Atualizando a lista de pacotes..."
+apt update
+
+# Instala o pacote fornecido como argumento
+echo "Instalando o pacote $1..."
+apt install -y "$1"
+
+# Verifica se a instalação foi bem-sucedida
+if [ $? -eq 0 ]; then
+    echo "Pacote $1 instalado com sucesso."
+else
+    echo "Erro ao instalar o pacote $1."
+    exit 1
+fi
+
