@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Nome do script: update_packages.sh
+# Descrição: Script para atualizar pacotes no Ubuntu
+
+# Função para verificar se o usuário é root
+check_root() {
+    if [ "$EUID" -ne 0 ]; then
+        echo "Por favor, execute como root"
+        exit 1
+    fi
+}
+
+# Função para atualizar a lista de pacotes
+update_package_list() {
+    echo "Atualizando a lista de pacotes..."
+    apt-get update
+}
+
+# Função para atualizar os pacotes instalados
+upgrade_packages() {
+    echo "Atualizando pacotes instalados..."
+    apt-get upgrade 
+}
+
+# Função para limpar pacotes desnecessários
+clean_up() {
+    echo "Limpando pacotes desnecessários..."
+    apt-get autoremove 
+    apt-get clean
+}
+
+# Função principal
+main() {
+    check_root
+    update_package_list
+    upgrade_packages
+    clean_up
+    echo "o grupo edxlinux agradéce!"
+}
+
+# Chama a função principal
+main
+
